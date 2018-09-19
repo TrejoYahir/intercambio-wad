@@ -1,0 +1,30 @@
+<app-layout>
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <div class="card p-2">
+        <div class="card-header text-center bg-white">
+          <h2 class="card-title logo">
+            Bienvenido <span class="text-primary">Yahir</span>
+          </h2>
+        </div>
+        <div class="card-body text-left">
+          <p class="text-muted mb-0">20 amigos</p>
+          <p class="text-muted">2 intercambios</p>
+          <a routerLink="exchanges" class="card-link d-block">Crear intercambio</a>
+          <a routerLink="friends" class="card-link d-block m-0">Añadir amigo</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <app-exchange-list></app-exchange-list>
+        </div>
+        <div class="col-12 col-md-4">
+          <app-friend-list></app-friend-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-layout>
+

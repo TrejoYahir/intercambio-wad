@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Titulo</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="p-1">
+    <h3 class="card-title mt-0">Añadir amigo</h3>
+    <div class="form-group">
+      <label for="keyword">Buscar usuario</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Busca por nombre de usuario o ID" name="keyword" [(ngModel)]="keyword">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="keyword" (click)="onSearchUser()">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>Resultados</p>
+    <ul class="list-group mb-3 friend-list">
+      <li class="list-group-item" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10];">
+        <div class="form-check">
+          Usuario {{item}}
+        </div>
+      </li>
+    </ul>
+  </form>
+</div>

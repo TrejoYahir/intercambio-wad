@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddExchangeComponent } from './add-exchange.component';
+import { AddExchangeModalComponent } from './add-exchange-modal.component';
 
-describe('AddExchangeComponent', () => {
-  let component: AddExchangeComponent;
-  let fixture: ComponentFixture<AddExchangeComponent>;
+describe('AddExchangeModalComponent', () => {
+  let component: AddExchangeModalComponent;
+  let fixture: ComponentFixture<AddExchangeModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddExchangeComponent ]
+      declarations: [ AddExchangeModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddExchangeComponent);
+    fixture = TestBed.createComponent(AddExchangeModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

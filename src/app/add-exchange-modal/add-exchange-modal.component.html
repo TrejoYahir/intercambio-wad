@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Titulo</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="p-1">
+    <h3 class="card-title mt-0">Añadir intercambio</h3>
+    <div class="form-group">
+      <label for="name">Nombre del intercambio</label>
+      <input type="text" class="form-control" id="name" placeholder="Ingresa el nombre del intercambio">
+    </div>
+    <div class="form-group">
+      <label for="description">Descripción del intercambio</label>
+      <textarea class="form-control" id="description" placeholder="Ingresa la descripción del intercambio"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="limit-date">Fecha limite de registro</label>
+      <input type="datetime-local" class="form-control" id="limit-date" placeholder="Fecha del intercambio">
+    </div>
+    <div class="form-group">
+      <label for="date">Fecha del intercambio</label>
+      <input type="datetime-local" class="form-control" id="date" placeholder="Fecha del intercambio">
+    </div>
+    <div class="form-group">
+      <label for="theme">Añade temas de interés para regalos</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Tema para regalo" name="theme" id="theme" [(ngModel)]="theme">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="onAddTheme()">
+            <i class="fa fa-plus-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="w-100 mb-3" *ngIf="exchange.giftThemes.length > 0">
+      <span class="badge badge-pill badge-primary mx-1" *ngFor="let theme of exchange.giftThemes">{{theme}}</span>
+    </div>
+    <p>Participantes</p>
+    <ul class="list-group mb-3 friend-list">
+      <li class="list-group-item" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10];">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="check-{{item}}">
+          <label class="form-check-label" for="check-{{item}}">
+            Default checkbox {{item}}
+          </label>
+        </div>
+      </li>
+    </ul>
+    <button type="button" class="btn btn-primary">Añadir intercambio</button>
+  </form>
+</div>

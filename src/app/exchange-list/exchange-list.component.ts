@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-exchange-list',
@@ -7,11 +7,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ExchangeListComponent implements OnInit {
 
-  @Input() private exchangeList: any[];
+  @Input() public exchangeList: any[];
+  @Output() public addExchange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onAddExchange() {
+    this.addExchange.emit();
   }
 
 }

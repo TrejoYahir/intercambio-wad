@@ -9,7 +9,14 @@ import {Exchange} from '../../models/exchange.model';
 })
 export class AddExchangeModalComponent implements OnInit {
 
-  public exchange: Exchange = new Exchange();
+  public exchange: Exchange = {
+    giftThemes: [],
+    date: "",
+    description: "",
+    limitDate: "",
+    name: "",
+    participants: []
+  };
 
   public theme: string;
 

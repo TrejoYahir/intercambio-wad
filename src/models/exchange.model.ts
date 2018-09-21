@@ -1,8 +1,9 @@
-export class Exchange {
-  name: string = "";
-  description: string = "";
+export interface Exchange {
+  name: string;
+  description: string;
   date: any;
   limitDate: any;
-  giftThemes: string[] = [];
-  participants: string[] = [];
+  giftThemes: string[];
+  participants: string[];
+  [propName: string]: any;
 }

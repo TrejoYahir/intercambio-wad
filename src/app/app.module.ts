@@ -15,8 +15,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LayoutComponent } from './ui/layout/layout.component';
-import { ModalModule } from 'ngx-bootstrap';
+import {CollapseModule, ModalModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
+import { ParticipantsListComponent } from './participants-list/participants-list.component';
+import { MatchPasswordDirective } from '../directives/match-password.directive';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ServerHttpInterceptor} from '../interceptors/server.interceptor';
 
 
 @NgModule({
@@ -33,7 +37,9 @@ import {FormsModule} from '@angular/forms';
     DashboardComponent,
     FooterComponent,
     HeaderComponent,
-    LayoutComponent
+    LayoutComponent,
+    ParticipantsListComponent,
+    MatchPasswordDirective
   ],
   entryComponents: [
     AddExchangeModalComponent,
@@ -43,9 +49,17 @@ import {FormsModule} from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ModalModule.forRoot()
+    HttpClientModule,
+    ModalModule.forRoot(),
+    CollapseModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerHttpInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

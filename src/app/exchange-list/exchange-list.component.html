@@ -3,25 +3,18 @@
     <h5 class="card-title mb-0">Intercambios creados</h5>
   </div>
   <ul class="list-group list-group-flush">
-    <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a
+      class="list-group-item list-group-item-action flex-column align-items-start"
+      *ngFor="let item of [1, 2, 3, 4, 5, 6]"
+      [routerLink]="['../exchange', item]">
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Intercambio familiar</h5>
+        <h5 class="mb-1">Intercambio {{item}}</h5>
         <small>24/12/2018</small>
       </div>
       <p class="mb-1">
-        Intercambio de navidad para con la familia
+        Descripción del intercambio {{item}}
       </p>
       <small>16 invitados</small>
-    </a>
-    <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Intercambio con amigos</h5>
-        <small>18/12/2018</small>
-      </div>
-      <p class="mb-1">
-        Intercambio de navidad con amigos
-      </p>
-      <small>8 invitados</small>
     </a>
   </ul>
   <div class="card-body">

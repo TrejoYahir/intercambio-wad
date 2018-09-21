@@ -1,3 +1,27 @@
-<p>
-  exchange-page works!
-</p>
+<div class="row">
+  <div class="col-12 col-md-8 mt-3 mt-md-0">
+    <div class="card">
+      <div class="card-header bg-primary text-white d-flex w-100 justify-content-between align-items-center">
+        <h5 class="mb-1">Intercambio {{id}}</h5>
+        <small>24/12/2018</small>
+      </div>
+      <div class="card-body">
+        <p>Descripción del intercambio {{id}}</p>
+        <p class="font-weight-bold mb-0">Fecha límite de registro</p>
+        <p class="mt-0 text-muted">20/12/18</p>
+        <p class="font-weight-bold mb-0">Fecha del intercambio</p>
+        <p class="mt-0 text-muted">24/12/18</p>
+        <p class="font-weight-bold">Temas de interés </p>
+        <div class="w-100">
+          <span class="badge badge-pill badge-primary mx-1" *ngFor="let index of [1, 2, 3, 4, 5, 6]">
+            Tema {{index}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mt-3 mt-md-0">
+    <app-participants-list></app-participants-list>
+  </div>
+</div>
+

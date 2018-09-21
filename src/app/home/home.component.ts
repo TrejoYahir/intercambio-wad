@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AddExchangeModalComponent} from '../add-exchange-modal/add-exchange-modal.component';
+import {AddFriendModalComponent} from '../add-friend-modal/add-friend-modal.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  exchangeList: any[] = [];
+  friendList: any[] = [];
+  addExchangeModal: BsModalRef;
+  addFriendModal: BsModalRef;
+
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+  }
+
+  onAddExchange() {
+    this.addExchangeModal = this.modalService.show(AddExchangeModalComponent, {keyboard: true});
+  }
+
+  onAddFriend() {
+    this.addFriendModal = this.modalService.show(AddFriendModalComponent, {keyboard: true});
   }
 
 }

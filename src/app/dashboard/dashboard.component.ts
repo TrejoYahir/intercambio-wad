@@ -10,12 +10,12 @@ import {AddFriendModalComponent} from '../add-friend-modal/add-friend-modal.comp
 })
 export class DashboardComponent implements OnInit {
 
+  constructor(private modalService: BsModalService) { }
+
   exchangeList: any[] = [];
   friendList: any[] = [];
   addExchangeModal: BsModalRef;
   addFriendModal: BsModalRef;
-
-  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
 

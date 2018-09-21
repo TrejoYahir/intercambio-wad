@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-xs-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
       <form class="p-4 m-2 card">
-        <h1 class="card-title logo my-0">Intercambios</h1>
+        <h1 class="card-title logo my-0 text-primary">Intercambios</h1>
         <h5 class="card-subtitle my-4">Iniciar sesión</h5>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Ingresa tu email">
+          <input type="email" class="form-control" id="email" placeholder="Ingresa tu email" required>
         </div>
         <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="Contraseña">
+          <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
         </div>
         <a routerLink="/signup" class="d-block">Deseo registrarme</a><br>
-        <button type="button" class="btn btn-primary" routerLink="/dashboard">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary" routerLink="/dashboard/home">Iniciar sesión</button>
       </form>
     </div>
   </div>

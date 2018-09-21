@@ -1,31 +1,85 @@
 <div class="container py-5 px-2 px-lg-0">
   <div class="row">
     <div class="col-xs-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
-      <form class="py-5 px-4 m-2 card">
-        <h1 class="card-title logo my-0">Intercambios</h1>
+      <form class="py-5 px-4 m-2 card" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <h1 class="card-title logo my-0 text-primary">Intercambios</h1>
         <h3 class="card-subtitle my-4">Registro</h3>
         <div class="form-group">
-          <label for="name">Nombre</label>
-          <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre">
+          <label for="firstName">Nombre</label>
+          <input type="text"
+                 class="form-control" placeholder="Ingresa tu nombre" id="firstName"
+                 name="firstName" required minlength="4"
+                 [(ngModel)]="user.firstName" #firstName="ngModel">
+          <div *ngIf="f.submitted && firstName.invalid"
+               class="alert alert-danger">
+            <p *ngIf="firstName.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="firstName.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+          </div>
         </div>
         <div class="form-group">
-          <label for="last-name">Apellidos</label>
-          <input type="text" class="form-control" id="last-name" placeholder="Ingresa tus apellidos">
+          <label for="lastName">Apellidos</label>
+          <input type="text"
+                 class="form-control" id="lastName" placeholder="Ingresa tus apellidos"
+                 name="lastName" required minlength="4"
+                 [(ngModel)]="user.lastName" #lastName="ngModel">
+          <div *ngIf="f.submitted && lastName.invalid"
+               class="alert alert-danger">
+            <p *ngIf="lastName.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="lastName.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+          </div>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Ingresa tu email">
+          <input type="email"
+                 class="form-control" id="email" placeholder="Ingresa tu email"
+                 name="email" required minlength="4"
+                 [(ngModel)]="user.email" #email="ngModel" email>
+          <div *ngIf="f.submitted && email.invalid"
+               class="alert alert-danger">
+            <p *ngIf="email.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="email.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+            <p *ngIf="email.errors.email" class="m-0">Debes ingresar un email válido</p>
+          </div>
         </div>
         <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="Contraseña">
+          <label for="alias">Nombre de usuario</label>
+          <input type="text"
+                 class="form-control" placeholder="Ingresa tu nombre" id="alias"
+                 name="alias" required minlength="4"
+                 [(ngModel)]="user.alias" #alias="ngModel">
+          <div *ngIf="f.submitted && firstName.invalid"
+               class="alert alert-danger">
+            <p *ngIf="alias.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="alias.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+          </div>
         </div>
         <div class="form-group">
-          <label for="password">Confirmar contraseña</label>
-          <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar contraseña">
+          <label for="pass">Contraseña</label>
+          <input type="password"
+                 class="form-control" id="pass" placeholder="Contraseña"
+                 name="pass" required minlength="4"  appMatchPassword="passConfirm" reverse="true"
+                 [(ngModel)]="user.pass" #pass="ngModel">
+          <div *ngIf="f.submitted && pass.invalid"
+               class="alert alert-danger">
+            <p *ngIf="pass.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="pass.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passConfirm">Confirmar contraseña</label>
+          <input type="password"
+                 class="form-control" id="passConfirm" placeholder="Confirmar contraseña"
+                 name="passConfirm" required minlength="4" appMatchPassword="pass"
+                 [(ngModel)]="user.passConfirm" #passConfirm="ngModel">
+          <div *ngIf="f.submitted && passConfirm.invalid"
+               class="alert alert-danger">
+            <p *ngIf="passConfirm.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="passConfirm.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+            <p *ngIf="!passConfirm.errors.matchPassword" class="m-0">Las contraseñas deben ser iguales.</p>
+          </div>
         </div>
         <a routerLink="/login" class="d-block">Ya tengo cuenta</a><br>
-        <button type="button" class="btn btn-primary" routerLink="/dashboard">Registrate</button>
+        <button type="submit" class="btn btn-primary">Registrate</button>
       </form>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <app-layout>
-  <div class="row">
+  <div class="row pb-5">
     <div class="col-12 col-md-3 mt-3 mt-md-0">
       <div class="card p-2">
         <div class="card-header text-center bg-white">
@@ -16,14 +16,7 @@
       </div>
     </div>
     <div class="col-12 col-md-9">
-      <div class="row">
-        <div class="col-12 col-md-8 mt-3 mt-md-0">
-          <app-exchange-list (addExchange)="onAddExchange()"></app-exchange-list>
-        </div>
-        <div class="col-12 col-md-4 mt-3 mt-md-0">
-          <app-friend-list (addFriend)="onAddFriend()"></app-friend-list>
-        </div>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </app-layout>

@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="alias">Nombre de usuario</label>
+          <label for="alias">Alias</label>
           <input type="text"
                  class="form-control" placeholder="Ingresa tu nombre" id="alias"
                  name="alias" required minlength="4"
@@ -77,6 +77,10 @@
             <p *ngIf="passConfirm.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
             <p *ngIf="!passConfirm.errors.matchPassword" class="m-0">Las contraseñas deben ser iguales.</p>
           </div>
+        </div>
+        <div *ngIf="requestError"
+             class="alert alert-danger">
+          <p class="m-0">{{requestError}}</p>
         </div>
         <a routerLink="/login" class="d-block">Ya tengo cuenta</a><br>
         <button type="submit" class="btn btn-primary">Registrate</button>

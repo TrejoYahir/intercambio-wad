@@ -7,20 +7,27 @@ import {ExchangeListComponent} from './exchange-list/exchange-list.component';
 import {SignupComponent} from './signup/signup.component';
 import {FriendListComponent} from './friend-list/friend-list.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {AuthGuard} from '../guards/auth-gard.service';
+import {LoggedGuard} from '../guards/logged-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard/home', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoggedGuard]},
+  { path: 'signup', component: SignupComponent, canActivate: [LoggedGuard]},
   {
     path: 'dashboard',
-    component: DashboardComponent ,
-    children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'exchanges', component: ExchangeListComponent },
-      { path: 'exchange/:id', component: ExchangePageComponent },
-      { path: 'friends', component: FriendListComponent },
-    ]
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    children: [{
+      path: '',
+      canActivateChild: [AuthGuard],
+      children: [
+        {path: 'home', component: HomeComponent},
+        {path: 'exchanges', component: ExchangeListComponent},
+        {path: 'exchange/:id', component: ExchangePageComponent},
+        {path: 'friends', component: FriendListComponent},
+      ]
+    }]
   }
 ];
 

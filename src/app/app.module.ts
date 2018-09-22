@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
+import {AuthService} from '../services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ExchangeListComponent } from './exchange-list/exchange-list.component';
@@ -21,7 +22,12 @@ import { ParticipantsListComponent } from './participants-list/participants-list
 import { MatchPasswordDirective } from '../directives/match-password.directive';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ServerHttpInterceptor} from '../interceptors/server.interceptor';
+import {AuthGuard} from '../guards/auth-gard.service';
+import {LoggedGuard} from '../guards/logged-guard.service';
 
+export function onInit(authService: AuthService) {
+  return () => authService.getSavedSession();
+}
 
 @NgModule({
   declarations: [
@@ -39,7 +45,7 @@ import {ServerHttpInterceptor} from '../interceptors/server.interceptor';
     HeaderComponent,
     LayoutComponent,
     ParticipantsListComponent,
-    MatchPasswordDirective
+    MatchPasswordDirective,
   ],
   entryComponents: [
     AddExchangeModalComponent,
@@ -54,11 +60,19 @@ import {ServerHttpInterceptor} from '../interceptors/server.interceptor';
     CollapseModule.forRoot()
   ],
   providers: [
+    AuthGuard,
+    LoggedGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ServerHttpInterceptor,
       multi: true
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: onInit,
+      deps: [AuthService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,19 +1,40 @@
 <div class="container py-5 px-2 px-lg-0">
   <div class="row">
     <div class="col-xs-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
-      <form class="p-4 m-2 card">
+      <form class="py-5 px-4 m-2 card" (ngSubmit)="onSubmit(f)" #f="ngForm">
         <h1 class="card-title logo my-0 text-primary">Intercambios</h1>
-        <h5 class="card-subtitle my-4">Iniciar sesión</h5>
+        <h3 class="card-subtitle my-4">Iniciar sesión</h3>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Ingresa tu email" required>
+          <input type="email"
+                 class="form-control" id="email" placeholder="Ingresa tu email"
+                 name="email" required minlength="4"
+                 [(ngModel)]="user.email" #email="ngModel" email>
+          <div *ngIf="f.submitted && email.invalid"
+               class="alert alert-danger">
+            <p *ngIf="email.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="email.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+            <p *ngIf="email.errors.email" class="m-0">Debes ingresar un email válido</p>
+          </div>
         </div>
         <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+          <label for="pass">Contraseña</label>
+          <input type="password"
+                 class="form-control" id="pass" placeholder="Contraseña"
+                 name="pass" required minlength="4"  appMatchPassword="passConfirm" reverse="true"
+                 [(ngModel)]="user.pass" #pass="ngModel">
+          <div *ngIf="f.submitted && pass.invalid"
+               class="alert alert-danger">
+            <p *ngIf="pass.errors.required" class="m-0">Este campo es requerido.</p>
+            <p *ngIf="pass.errors.minlength" class="m-0">El campo debe tener por lo menos 4 caracteres.</p>
+          </div>
+        </div>
+        <div *ngIf="requestError"
+             class="alert alert-danger">
+          <p class="m-0">{{requestError}}</p>
         </div>
         <a routerLink="/signup" class="d-block">Deseo registrarme</a><br>
-        <button type="button" class="btn btn-primary" routerLink="/dashboard/home">Iniciar sesión</button>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
       </form>
     </div>
   </div>

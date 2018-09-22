@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {AddExchangeModalComponent} from '../add-exchange-modal/add-exchange-modal.component';
 import {AddFriendModalComponent} from '../add-friend-modal/add-friend-modal.component';
+import {User} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,15 +12,16 @@ import {AddFriendModalComponent} from '../add-friend-modal/add-friend-modal.comp
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private userService: UserService) { }
 
-  exchangeList: any[] = [];
-  friendList: any[] = [];
-  addExchangeModal: BsModalRef;
-  addFriendModal: BsModalRef;
+  public exchangeList: any[] = [];
+  public friendList: any[] = [];
+  public addExchangeModal: BsModalRef;
+  public addFriendModal: BsModalRef;
+  public user: User;
 
   ngOnInit() {
-
+    this.user = this.userService.user;
   }
 
   onAddExchange() {

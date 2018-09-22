@@ -9,20 +9,27 @@
     <div class="form-group">
       <label for="keyword">Buscar usuario</label>
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Busca por nombre de usuario o ID" name="keyword" [(ngModel)]="keyword">
+        <input type="text" class="form-control" placeholder="Busca por alias o email" name="keyword" [(ngModel)]="keyword" id="keyword" (keyup)="onSearchUser()">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" id="keyword" (click)="onSearchUser()">
+          <button class="btn btn-primary" type="button" id="search" (click)="onSearchUser()">
             <i class="fa fa-search"></i>
           </button>
         </div>
       </div>
     </div>
-    <p>Resultados</p>
+    <p *ngIf="searchResults.length > 0">Resultados</p>
+    <div class="w-100 text-center" *ngIf="false && loadingSearch">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+    </div>
     <ul class="list-group mb-3 friend-list">
-      <li class="list-group-item" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10];">
-        <div class="form-check">
-          Usuario {{item}}
+      <li class="list-group-item d-sm-flex w-100 justify-content-between align-items-center" *ngFor="let user of searchResults">
+        <div class="d-sm-block">
+          <p class="m-0">{{user.firstName}} {{user.lastName }} <span class="text-muted">({{user.alias}})</span></p>
+          <small class="text-muted d-block">{{user.email}}</small>
         </div>
+        <i class="fa fa-circle-o-notch fa-spin" *ngIf="user.loadingFriendship"></i>
+        <button class="btn btn-primary mt-2 mt-sm-0" (click)="onAddFriend(user)" *ngIf="!user.loadingFriendship && !user.isFriend">Añadir amigo</button>
+        <p class="text-success" *ngIf="!user.loadingFriendship && user.isFriend">Amigo</p>
       </li>
     </ul>
   </form>

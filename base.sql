@@ -119,7 +119,7 @@ BEGIN
 DELIMITER ;
 
 select * from exchanges;
-select * from pairs;
+select * from Themes;
 
 call getExchangeInvites(1);
 

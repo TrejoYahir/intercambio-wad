@@ -1,23 +1,35 @@
-<div class="card">
+<div class="card mt-3">
   <div class="card-body bg-primary text-white">
-    <h5 class="card-title mb-0">Intercambios creados</h5>
+    <h5 class="card-title mb-0">{{title}}</h5>
   </div>
   <ul class="list-group list-group-flush">
-    <a
-      class="list-group-item list-group-item-action"
-      *ngFor="let item of [1, 2, 3, 4, 5, 6]"
-      [routerLink]="['../exchange', item]">
+    <div class="list-group-item" *ngIf="exchangeList.length === 0">
+      <p class="mb-0">{{notAvailableText}}</p>
+    </div>
+    <div
+      class="list-group-item"
+      *ngFor="let exchange of exchangeList">
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Intercambio {{item}}</h5>
-        <small>24/12/2018</small>
+        <h5 class="mb-1">{{exchange.exchangeName}}</h5>
+        <small>{{exchange.exchangeDate}}</small>
       </div>
       <p class="mb-1">
-        Descripción del intercambio {{item}}
+        {{exchange.exchangeDescription}}
       </p>
-      <small>16 invitados</small>
-    </a>
+      <small class="d-block">{{exchange.participantList.length}} invitados</small>
+      <button class="btn btn-link text-primary pl-0"
+              [routerLink]="['../exchange', exchange.accessCode]"
+              >Ver</button>
+      <button class="btn btn-link text-primary pl-0"
+              (click)="onEditExchange(exchange)"
+              *ngIf="canEdit"
+      >Editar</button>
+      <button class="btn btn-link text-danger"
+              (click)="onDeleteExchange(exchange)"
+              *ngIf="canEdit">Eliminar</button>
+    </div>
   </ul>
-  <div class="card-body">
+  <div class="card-body" *ngIf="canEdit">
     <button class="btn btn-link p-0" (click)="onAddExchange()">Añadir intercambio</button>
   </div>
 </div>

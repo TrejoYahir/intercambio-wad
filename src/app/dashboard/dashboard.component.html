@@ -1,7 +1,7 @@
 <app-layout>
   <div class="row pb-5">
-    <div class="col-12 col-md-3 mt-3 mt-md-0">
-      <div class="card p-2">
+    <div class="col-12 col-md-3 mt-md-0">
+      <div class="card p-2 mt-3">
         <div class="card-header text-center bg-white">
           <h2 class="card-title logo">
             Bienvenido <span class="text-primary">{{ user.firstName }}</span>
@@ -9,8 +9,8 @@
           <small class="text-muted">{{ user.alias }}</small>
         </div>
         <div class="card-body text-left">
-          <p class="text-muted mb-0">{{friendList.length}} amigos</p>
-          <p class="text-muted">2 intercambios</p>
+          <p class="text-muted mb-0">{{friendList.length}} amigo<span *ngIf="friendList.length!=1">s</span></p>
+          <p class="text-muted">{{exchangeList.length}} intercambio<span *ngIf="exchangeList.length!=1">s</span></p>
           <button class="btn btn-link d-block p-0" (click)="onAddExchange()">Añadir intercambio</button>
           <button class="btn btn-link d-block p-0" (click)="onAddFriend()">Añadir amigo</button>
         </div>

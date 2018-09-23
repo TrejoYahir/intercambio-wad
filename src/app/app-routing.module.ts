@@ -24,7 +24,7 @@ const routes: Routes = [
       children: [
         {path: 'home', component: HomeComponent},
         {path: 'exchanges', component: ExchangeListComponent},
-        {path: 'exchange/:id', component: ExchangePageComponent},
+        {path: 'exchange/:code', component: ExchangePageComponent},
         {path: 'friends', component: FriendListComponent},
       ]
     }]

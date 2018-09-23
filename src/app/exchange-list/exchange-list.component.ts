@@ -1,4 +1,8 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, OnDestroy, Input} from '@angular/core';
+import {User} from '../../models/user.model';
+import {Subscription} from 'rxjs';
+import {ExchangeService} from '../../services/exchange.service';
+import {Exchange} from '../../models/exchange.model';
 
 @Component({
   selector: 'app-exchange-list',
@@ -7,16 +11,29 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 })
 export class ExchangeListComponent implements OnInit {
 
-  @Input() public exchangeList: any[];
-  @Output() public addExchange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public addExchange: EventEmitter<Exchange[]> = new EventEmitter<Exchange[]>();
+  @Output() public editExchange: EventEmitter<Exchange> = new EventEmitter<Exchange>();
+  @Output() public deleteExchange: EventEmitter<Exchange> = new EventEmitter<Exchange>();
 
-  constructor() { }
+  @Input() public title: string;
+  @Input() public exchangeList: Exchange[];
+  @Input() public canEdit: boolean = false;
+  @Input() public notAvailableText: string;
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
   onAddExchange() {
-    this.addExchange.emit();
+    this.addExchange.emit(this.exchangeList);
+  }
+
+  onDeleteExchange(exchange) {
+    this.deleteExchange.emit(exchange);
+  }
+
+  onEditExchange(exchange) {
+    this.editExchange.emit(exchange);
   }
 
 }

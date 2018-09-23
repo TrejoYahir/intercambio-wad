@@ -1,9 +1,24 @@
 <div class="row">
-  <div class="col-12 col-md-8 mt-3 mt-md-0">
-    <app-exchange-list (addExchange)="onAddExchange()"></app-exchange-list>
+  <div class="col-12 col-md-8 mt-md-0">
+    <app-exchange-list
+      (addExchange)="onAddExchange($event)"
+      (editExchange)="onEditExchange($event)"
+      (deleteExchange)="onDeleteExchange($event)"
+      title="Intercambios creados"
+      [canEdit]="true"
+      [exchangeList]="exchangeList"
+      notAvailableText="No has creado talleres"
+    ></app-exchange-list>
+    <app-exchange-list
+      title="Invitaciones recibidas"
+      [exchangeList]="inviteList"
+      notAvailableText="No has tienes invitaciones"
+    ></app-exchange-list>
   </div>
-  <div class="col-12 col-md-4 mt-3 mt-md-0">
-    <app-friend-list (addFriend)="onAddFriend()"></app-friend-list>
+  <div class="col-12 col-md-4 mt-md-0">
+    <app-friend-list
+      (addFriend)="onAddFriend($event)"
+    ></app-friend-list>
   </div>
 </div>
 

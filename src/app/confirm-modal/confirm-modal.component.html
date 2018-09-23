@@ -1,0 +1,9 @@
+<div class="modal-body text-center">
+  <p>{{text}}</p>
+  <button type="button"
+          class="btn btn-link text-danger"
+          (click)="onDecline()"
+          *ngIf="enableDecline"
+  >{{declineButton}}</button>
+  <button type="button" class="btn btn-link" (click)="onConfirm()">{{actionButton}}</button>
+</div>

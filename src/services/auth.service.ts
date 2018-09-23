@@ -60,7 +60,7 @@ export class AuthService {
     const router = this.injector.get(Router)
     this._logged = false;
     this.userService.deleteUser();
-    router.navigate(["/login"]);
+    window.location.replace('/login');
   }
 
 }

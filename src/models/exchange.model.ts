@@ -1,9 +1,17 @@
+import {User} from './user.model';
+
 export interface Exchange {
-  name: string;
-  description: string;
-  date: any;
+  id?: number;
+  exchangeName: string;
+  maxAmount: number;
+  exchangeDescription: string;
+  exchangeDate: any;
   limitDate: any;
   giftThemes: string[];
-  participants: string[];
+  participants?: number[];
+  idCreator?: number;
+  accessCode?: string;
+  participantList?: User[];
+  giftThemesList?: string[];
   [propName: string]: any;
 }

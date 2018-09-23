@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Añadir participante</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="p-1">
+    <div class="form-group">
+      <label for="keyword">Buscar amigo</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Busca por alias o email" name="keyword" [(ngModel)]="keyword" id="keyword" (keyup)="onSearchUser()">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="search" (click)="onSearchUser()">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p *ngIf="searchResults.length > 0">Resultados</p>
+    <ul class="list-group mb-3 friend-list">
+      <li class="list-group-item d-sm-flex w-100 justify-content-between align-items-center" *ngFor="let user of searchResults">
+        <div class="d-sm-block">
+          <p class="m-0">{{user.firstName}} {{user.lastName }} <span class="text-muted">({{user.alias}})</span></p>
+          <small class="text-muted d-block">{{user.email}}</small>
+        </div>
+        <i class="fa fa-circle-o-notch fa-spin" *ngIf="user.loading"></i>
+        <button class="btn btn-primary mt-2 mt-sm-0" (click)="onAddParticipant(user)" *ngIf="!user.loading && !isParticipant(user)">Añadir</button>
+        <p class="text-success" *ngIf="!user.loading && isParticipant(user)">
+          <small class="text-danger" *ngIf="!user.acceptInvite"><i class="fa fa-circle-o"></i></small>
+          <small class="text-success" *ngIf="user.acceptInvite"><i class="fa fa-circle"></i></small>
+        </p>
+      </li>
+    </ul>
+  </form>
+</div>

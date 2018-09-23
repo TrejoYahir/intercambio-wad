@@ -11,26 +11,18 @@ import {Subscription} from 'rxjs';
   templateUrl: './add-friend-modal.component.html',
   styleUrls: ['./add-friend-modal.component.scss']
 })
-export class AddFriendModalComponent implements OnInit, OnDestroy {
+export class AddFriendModalComponent implements OnInit {
 
   public keyword: string;
   public searchResults: User[];
   public loadingSearch: boolean = false;
-  private friendListSubscription: Subscription;
   private friendList: User[];
 
   constructor(public bsModalRef: BsModalRef, private friendService: FriendService, private userService: UserService) {
     this.searchResults = [];
   }
 
-  ngOnInit() {
-    this.friendListSubscription = this.friendService.getFriendList()
-      .subscribe((data: User[])=> this.friendList = data );
-  }
-
-  ngOnDestroy() {
-    this.friendListSubscription.unsubscribe();
-  }
+  ngOnInit() { }
 
   onAddFriend(user: User) {
     const friendship: Friendship = {

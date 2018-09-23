@@ -23,7 +23,10 @@ export class FriendService {
       }, (error: any)=>{
         console.log(error);
       });
+  }
 
+  get friendList() {
+    return this._friendListSubject.getValue();
   }
 
   search(keyword: string) {

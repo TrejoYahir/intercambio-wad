@@ -11,7 +11,7 @@ export class MatchPasswordDirective implements Validator{
 
   private get isReverse() {
     if (!this.reverse) return false;
-    return this.reverse === 'true' ? true: false;
+    return this.reverse === 'true';
   }
 
   validate(c: AbstractControl): { [key: string]: any } {

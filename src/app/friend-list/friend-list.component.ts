@@ -10,7 +10,7 @@ import {FriendService} from '../../services/friend.service';
 })
 export class FriendListComponent implements OnInit, OnDestroy {
 
-  @Output() public addFriend: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public addFriend: EventEmitter<User[]> = new EventEmitter<User[]>();
   public friendList: any[] = [];
   private friendListSubscription: Subscription;
 
@@ -26,7 +26,7 @@ export class FriendListComponent implements OnInit, OnDestroy {
   }
 
   onAddFriend() {
-    this.addFriend.emit();
+    this.addFriend.emit(this.friendList);
   }
 
 }

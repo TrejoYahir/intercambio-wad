@@ -24,6 +24,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ServerHttpInterceptor} from '../interceptors/server.interceptor';
 import {AuthGuard} from '../guards/auth-gard.service';
 import {LoggedGuard} from '../guards/logged-guard.service';
+import { DateCompareDirective } from '../directives/date-compare.directive';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { AddParticipantModalComponent } from './add-participant-modal/add-participant-modal.component';
 
 export function onInit(authService: AuthService) {
   return () => authService.getSavedSession();
@@ -48,10 +51,15 @@ export function onInit(authService: AuthService) {
     LayoutComponent,
     ParticipantsListComponent,
     MatchPasswordDirective,
+    DateCompareDirective,
+    ConfirmModalComponent,
+    AddParticipantModalComponent,
   ],
   entryComponents: [
     AddExchangeModalComponent,
     AddFriendModalComponent,
+    ConfirmModalComponent,
+    AddParticipantModalComponent
   ],
   imports: [
     BrowserModule,

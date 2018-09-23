@@ -28,14 +28,18 @@ create table Exchanges (
 	exchangeDescription varchar(300) not null,
 	accessCode char(8) not null,
 	idCreator int not null,
-    foreign key(idCreator) references Users(id) ON DELETE CASCADE
+    foreign key(idCreator) references Users(id) 
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
 );            
             
 create table Themes (
 	id int primary key not null auto_increment,
 	themeName varchar(50) not null,
     idExchange int not null,
-    foreign key(idExchange) references Exchanges (id) ON DELETE CASCADE
+    foreign key(idExchange) references Exchanges (id) 
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 create table ParticipantList (
@@ -45,7 +49,9 @@ create table ParticipantList (
     acceptInvite boolean not null,
     isInGroup boolean not null,
     foreign key(idUser) references Users (id),
-    foreign key(idExchange) references Exchanges (id) ON DELETE CASCADE
+    foreign key(idExchange) references Exchanges (id) 
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 create table Pairs (
@@ -55,7 +61,9 @@ create table Pairs (
     idExchange int not null,
     foreign key(idUser1) references Users (id),
     foreign key(idUser1) references Users (id),
-    foreign key(idExchange) references Exchanges (id) ON DELETE CASCADE
+    foreign key(idExchange) references Exchanges (id) 
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 
@@ -100,8 +108,19 @@ BEGIN
     END //
 DELIMITER ;
 
-/*call getExchangeInvites(12);*/
+DELIMITER //
+CREATE PROCEDURE getPairs (eCode varchar(8)) 
+BEGIN	
+		SELECT p.* FROM
+		Pairs p JOIN Exchanges e
+		ON p.idExchange = e.id  
+		WHERE e.accessCode = eCode;
+    END //
+DELIMITER ;
 
-/*call getExchangeInvited(3);*/
+select * from exchanges;
+select * from pairs;
 
+call getExchangeInvites(1);
 
+call getExchangeInvited(3);

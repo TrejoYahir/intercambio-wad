@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ɵConsole} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Exchange} from '../../models/exchange.model';
 import {ExchangeService} from '../../services/exchange.service';
@@ -32,6 +32,8 @@ export class ExchangePageComponent implements OnInit {
   public participantEntity: User;
   private confirmModal: BsModalRef;
   private messageModal: BsModalRef;
+  public pairList: any[][] = [];
+  public exchangeBuddy: any[];
 
   constructor(private route: ActivatedRoute, private exchangeService: ExchangeService, private router: Router, private userService: UserService, private modalService: BsModalService) { }
 
@@ -50,6 +52,9 @@ export class ExchangePageComponent implements OnInit {
         if(participant.id == this.userService.user.id) {
           this.isParticipant = true;
           this.participantEntity = participant;
+          if(this.pairList.length > 0) {
+            this.setExchangeBuddy();
+          }
           this.checkSubscribed();
           return;
         }
@@ -65,10 +70,12 @@ export class ExchangePageComponent implements OnInit {
   fetchExchange() {
     this.exchangeService.fetchExchange(this.code)
       .subscribe((data: any)=> {
-        if(data.success) {
-          this.exchange = JSON.parse(data.exchange);
+        console.log(data);
+        if(data[0].success) {
+          this.exchange = JSON.parse(data[0].exchange);
           this.participantList = this.exchange.participantList;
           this.isOwner = this.checkOwnerShip();
+          this.pairList = this.buildPairList(data[1]);
           console.log(this.exchange);
           this.checkAccess();
         } else {
@@ -80,8 +87,42 @@ export class ExchangePageComponent implements OnInit {
       });
   }
 
+  setExchangeBuddy() {
+    for(let i = 0; i<this.pairList.length; i++) {
+      if(this.pairList[i][0].id == this.participantEntity.id) {
+        this.exchangeBuddy = this.pairList[i][1];
+      }
+    }
+    console.log("Exchange buddy", this.exchangeBuddy)
+  }
+
   checkOwnerShip() {
     return this.userService.user.id === this.exchange.idCreator;
+  }
+
+  private buildPairList(pairs: any[][]) {
+    let pairList: any[][];
+    if(pairs.length == 0)
+      return [];
+    else {
+      pairList = [];
+      for(let i = 0; i<pairs.length; i++) {
+        pairList[i] = [];
+        for(let j = 0; j < pairs[i].length; j++) {
+          if(pairList[i][j] == 0) {
+            let participant: any = {};
+            participant.firstName = "Sin asignar";
+            participant.acceptInvite = true;
+            participant.isInGroup = true;
+            pairList[i][j] = participant;
+          }
+          else
+            pairList[i][j] = this.participantList.find(x => pairs[i][j] == x.id);
+        }
+      }
+    }
+    console.log("pairlist", pairList);
+    return pairList;
   }
 
   checkSubscribed() {
@@ -165,7 +206,56 @@ export class ExchangePageComponent implements OnInit {
   }
 
   createPairs() {
+    let leftList: User[] = [...this.participantList];
+    let rightList: User[] = [...this.participantList];
+    let pairList: number[][] = [];
+    let a, b, user1, user2;
+    while(leftList.length > 0 && rightList.length > 0) {
 
+      do {
+        a = Math.floor(Math.random() * leftList.length);
+        b = Math.floor(Math.random() * rightList.length);
+
+        user1 = leftList[a];
+        user2 = rightList[b];
+
+      } while(user1.id == user2.id && rightList.length > 1 && leftList.length > 1);
+
+      leftList = leftList.filter(x => x.id != user1.id);
+      rightList = rightList.filter(x => x.id != user2.id);
+
+      pairList.push([user1.id,user2.id]);
+
+      if(user1.id == user2.id && rightList.length == 1 && leftList.length == 1) {
+        this.createPairs();
+        return;
+      }
+    }
+
+    console.log("pairs", pairList);
+    this.exchangeService.savePairs(pairList, this.exchange.id)
+      .subscribe((data: any) => {
+        this.pairList = this.buildPairList(pairList);
+        console.log(data);
+      }, (error: any)=>{
+        console.log(error);
+        alert("Error al guardar sorteo");
+      });
+  }
+
+  deletePairs() {
+    this.exchangeService.deletePairs(this.exchange.id)
+      .subscribe((data: any)=>{
+        console.log(data);
+        if(data.success) {
+          this.pairList = [];
+        } else {
+          alert("Error al anular sorteo");
+        }
+      }, (error: any)=>{
+        console.log(error);
+        alert("Error al anular sorteo");
+      });
   }
 
 }

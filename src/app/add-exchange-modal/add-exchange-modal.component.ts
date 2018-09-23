@@ -28,6 +28,7 @@ export class AddExchangeModalComponent implements OnInit {
   public theme: string;
   public requestError: string;
   public today: string;
+  public edit: boolean;
 
   constructor(public bsModalRef: BsModalRef, private friendService: FriendService, private userService: UserService, private exchangeService: ExchangeService) {
     this.friendList = this.friendService.friendList;
@@ -47,25 +48,16 @@ export class AddExchangeModalComponent implements OnInit {
     }
   }
 
+  onRemoveTheme(index: number) {
+    this.exchange.giftThemes.splice(index, 1);
+  }
+
   onSubmit(form: any) {
-    this.requestError = null;
-    let data = {...this.exchange};
-    console.log("exchange", data);
-    console.log("form", form);
-    if(form.valid && this.exchange.participants.length > 1 && this.exchange.giftThemes.length > 0)
-      this.exchangeService.addExchange(data)
-        .subscribe((data: any)=>{
-          console.log(data);
-          if(data.success) {
-            this.exchangeList.push(JSON.parse(data.exchange));
-            this.bsModalRef.hide()
-          } else {
-            this.requestError = data.message;
-          }
-        }, (error: any)=> {
-          this.requestError = error.message;
-          console.log(error);
-        });
+    if(this.edit) {
+      this.editExchange(form);
+    } else {
+      this.saveExchange(form);
+    }
   }
 
   toggleSelectedFriend(friendId: number, checked: boolean) {
@@ -81,6 +73,53 @@ export class AddExchangeModalComponent implements OnInit {
     if(d !== null && d.trim() !== "")
       return new Date(d).getTime().toString();
     return null;
+  }
+
+  saveExchange(form: any) {
+    this.requestError = null;
+    let data = {...this.exchange};
+    console.log("add exchange", data);
+    console.log("form", form);
+    if(form.valid && this.exchange.participants.length > 1 && this.exchange.giftThemes.length > 0) {
+      this.exchangeService.addExchange(data)
+        .subscribe((data: any)=>{
+          console.log(data);
+          if(data.success) {
+            this.exchangeList.push(JSON.parse(data.exchange));
+            this.bsModalRef.hide()
+          } else {
+            this.requestError = data.message;
+          }
+        }, (error: any)=> {
+          this.requestError = error.message;
+          console.log(error);
+        });
+    }
+  }
+
+  editExchange(form: any) {
+    this.requestError = null;
+    let data = {...this.exchange};
+    delete data.participantList;
+    delete data.participants;
+    delete data.giftThemesList;
+    console.log("edit exchange", data);
+    console.log("form", form);
+    if(form.valid && this.exchange.participants.length > 1 && this.exchange.giftThemes.length > 0) {
+      this.exchangeService.editExchange(data)
+        .subscribe((data: any)=>{
+            for(let e of this.exchangeList) {
+              if(e.id == this.exchange.id) {
+                this.exchange = e;
+                this.bsModalRef.hide()
+                return;
+              }
+            }
+        }, (error: any)=> {
+          this.requestError = error.message;
+          console.log(error);
+        });
+    }
   }
 
 }

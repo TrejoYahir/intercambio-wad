@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public addExchangeModal: BsModalRef;
   public addFriendModal: BsModalRef;
+  public editExchangeModal: BsModalRef;
   public confirmDeleteModal: BsModalRef;
   public exchangeList: Exchange[];
   private exchangeListSubscription: Subscription;
@@ -71,7 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   deleteHandler(exchange: Exchange) {
     this.exchangeService.deleteExchange(exchange.id)
       .subscribe((data: any)=>{
-        console.log(data)
+        console.log(data);
           if(data.success) {
             this.exchangeList = this.exchangeList.filter(x => x.id != exchange.id);
           } else {
@@ -82,8 +83,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  onEditExchange(exchangeList: Exchange) {
+  onEditExchange(exchange: Exchange) {
+    console.log("exchange", exchange);
+    exchange.giftThemes = exchange.giftThemesList;
+    exchange.participants = this.getParticipantIds(exchange);
+    this.editExchangeModal = this.modalService.show(AddExchangeModalComponent, {keyboard: true});
+    this.editExchangeModal.content.exchangeList = this.exchangeList;
+    this.editExchangeModal.content.exchange = exchange;
+    this.editExchangeModal.content.edit = true;
+  }
 
+  getParticipantIds(exchange: Exchange) {
+    let idArray: number[] = [];
+    for(let p of exchange.participantList) {
+      idArray.push(p.id);
+    }
+    return idArray;
   }
 
 }

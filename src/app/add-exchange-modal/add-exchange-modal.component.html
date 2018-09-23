@@ -71,10 +71,14 @@
       </div>
     </div>
     <div class="w-100 mb-3" *ngIf="exchange.giftThemes.length > 0">
-      <span class="badge badge-pill badge-primary mx-1" *ngFor="let theme of exchange.giftThemes">{{theme}}</span>
+      <span class="badge badge-pill badge-primary mx-1"
+            *ngFor="let theme of exchange.giftThemes; let i = index;"
+            (click)="onRemoveTheme(i)">
+        {{theme}}
+      </span>
     </div>
-    <p>Participantes</p>
-    <ul class="list-group mb-3 friend-list">
+    <p *ngIf="!edit">Participantes</p>
+    <ul class="list-group mb-3 friend-list" *ngIf="!edit">
       <li class="list-group-item" *ngFor="let friend of friendList">
         <div class="form-check">
           <input type="checkbox"
@@ -87,13 +91,14 @@
           </label>
         </div>
       </li>
-      <div *ngIf="f.submitted && exchange.participants.length < 2" class="alert alert-danger">
+      <div *ngIf="!edit && f.submitted && exchange.participants.length < 2" class="alert alert-danger">
         <p class="m-0">Debes añadir por lo menos 2 participantes.</p>
       </div>
     </ul>
     <div *ngIf="f.submitted && requestError" class="alert alert-danger">
       <p class="m-0">{{requestError}}</p>
     </div>
-    <button type="submit" class="btn btn-primary">Añadir intercambio</button>
+    <button type="submit" class="btn btn-primary" *ngIf="!edit">Añadir intercambio</button>
+    <button type="submit" class="btn btn-primary" *ngIf="edit">Editar intercambio</button>
   </form>
 </div>

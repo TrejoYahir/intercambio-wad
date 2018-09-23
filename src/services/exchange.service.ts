@@ -52,7 +52,9 @@ export class ExchangeService {
   }
 
   public fetchExchange(code: string) {
-    return this.http.get(`/get-exchange?code=${code}`);
+    let exchange = this.http.get(`/get-exchange?code=${code}`);
+    let pairs = this.http.get(`/get-pairs?code=${code}`);
+    return forkJoin([exchange, pairs]);
   }
 
   public search(id: number) {
@@ -71,8 +73,20 @@ export class ExchangeService {
     return this.http.get(`/delete-exchange?id=${id}`);
   }
 
+  public editExchange(exchange: Exchange) {
+    return this.http.post('/edit-exchange', exchange);
+  }
+
   public addParticipant(participant: User) {
     return this.http.post('/add-participant', participant);
+  }
+
+  public savePairs(pairs: number[][], idExchange: number) {
+    return this.http.post(`/save-pairs?id=${idExchange}`, pairs);
+  }
+
+  public deletePairs(idExchange: number) {
+    return this.http.get(`/delete-pairs?id=${idExchange}`);
   }
 
 }

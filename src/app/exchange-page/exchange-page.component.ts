@@ -208,8 +208,11 @@ export class ExchangePageComponent implements OnInit {
   createPairs() {
     let leftList: User[] = [...this.participantList];
     let rightList: User[] = [...this.participantList];
+
     let pairList: number[][] = [];
+
     let a, b, user1, user2;
+
     while(leftList.length > 0 && rightList.length > 0) {
 
       do {
@@ -221,15 +224,15 @@ export class ExchangePageComponent implements OnInit {
 
       } while(user1.id == user2.id && rightList.length > 1 && leftList.length > 1);
 
+      if(user1.id == user2.id && rightList.length == 1 && leftList.length == 1) {
+        return this.createPairs();
+      }
+
       leftList = leftList.filter(x => x.id != user1.id);
       rightList = rightList.filter(x => x.id != user2.id);
 
       pairList.push([user1.id,user2.id]);
 
-      if(user1.id == user2.id && rightList.length == 1 && leftList.length == 1) {
-        this.createPairs();
-        return;
-      }
     }
 
     console.log("pairs", pairList);

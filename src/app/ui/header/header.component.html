@@ -9,9 +9,9 @@
         <a class="nav-link" (click)="logout()">Cerrar sesión</a>
       </li>
     </ul>
-    <!--<form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Buscar intercambio" aria-label="Buscar intercambio">
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
-    </form>-->
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Buscar intercambio" aria-label="Buscar intercambio" [(ngModel)]="exchange" name="exchange">
+      <button class="btn btn-outline-light my-2 my-sm-0" (click)="goToExchange()">Buscar</button>
+    </form>
   </div>
 </nav>

@@ -11,15 +11,17 @@
         <p class="mt-0 text-muted">{{exchange.limitDate}}</p>
         <p class="font-weight-bold mb-0">Fecha del intercambio</p>
         <p class="mt-0 text-muted">{{exchange.exchangeDate}}</p>
+        <p class="font-weight-bold mb-0">Código de acceso</p>
+        <p class="mt-0 text-muted">{{exchange.accessCode}}</p>
         <p class="font-weight-bold mb-0">Monto máximo</p>
         <p class="mt-0 text-muted">${{exchange.maxAmount}}</p>
         <p class="font-weight-bold mb-0"
-           *ngIf="!isOwner && participantEntity">
+           *ngIf="!isOwner && pairList.length > 0 && exchangeBuddy">
           {{exchangeBuddy.firstName}} {{exchangeBuddy.lastName}}>
           Compañero asignado
         </p>
         <p class="mt-0 text-muted"
-           *ngIf="!isOwner && participantEntity">
+           *ngIf="!isOwner && pairList.length > 0 && exchangeBuddy">
           {{exchangeBuddy.firstName}} {{exchangeBuddy.lastName}}
         </p>
         <p class="font-weight-bold">Temas de interés </p>

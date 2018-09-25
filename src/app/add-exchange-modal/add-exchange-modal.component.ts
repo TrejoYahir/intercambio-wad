@@ -85,7 +85,9 @@ export class AddExchangeModalComponent implements OnInit {
         .subscribe((data: any)=>{
           console.log(data);
           if(data.success) {
-            this.exchangeList.push(JSON.parse(data.exchange));
+            let exchange: Exchange = JSON.parse(data.exchange);
+            exchange.giftThemesList = this.exchange.giftThemes;
+            this.exchangeList.push(exchange);
             this.bsModalRef.hide()
           } else {
             this.requestError = data.message;

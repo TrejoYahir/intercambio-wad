@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,10 +10,15 @@ import {AuthService} from '../../../services/auth.service';
 export class HeaderComponent implements OnInit {
 
   public isCollapsed: boolean = true;
+  public exchange: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  goToExchange() {
+    this.router.navigate(['/dashboard/exchange', this.exchange]);
   }
 
   logout() {

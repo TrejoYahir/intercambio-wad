@@ -9,6 +9,7 @@ import {FriendListComponent} from './friend-list/friend-list.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AuthGuard} from '../guards/auth-gard.service';
 import {LoggedGuard} from '../guards/logged-guard.service';
+import {AppModule} from './app.module';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard/home', pathMatch: 'full' },
@@ -36,7 +37,7 @@ const routes: Routes = [
     RouterModule
   ],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,{useHash:true})
   ]
 })
 export class AppRoutingModule { }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap';
 import {User} from '../../models/user.model';
 import {FriendService} from '../../services/friend.service';
@@ -17,12 +17,44 @@ export class AddFriendModalComponent implements OnInit {
   public searchResults: User[];
   public loadingSearch: boolean = false;
   private friendList: User[];
+  public showExternal: boolean = false;
+  public externalMessage: string;
 
   constructor(public bsModalRef: BsModalRef, private friendService: FriendService, private userService: UserService) {
     this.searchResults = [];
   }
 
   ngOnInit() { }
+
+  toggleAddExternal() {
+    this.externalMessage = null;
+    this.showExternal = !this.showExternal;
+  }
+
+  onSaveExternalFriend(email: string, fullName: string) {
+    const externalFriend = {
+      email: email,
+      firstName: fullName.substr(0,fullName.indexOf(' ')),
+      lastName: fullName.substr(fullName.indexOf(' ')+1)
+    };
+    console.log('data to send', externalFriend);
+    this.friendService.addExternalFriend(externalFriend, this.userService.user.id)
+      .subscribe((data: any)=>{
+        this.showExternal = false;
+        console.log("externalFriend received", data);
+        if(data.success) {
+          this.externalMessage = "Amigo agregado";
+          this.friendList.push(JSON.parse(data.friend));
+          this.friendService.setFriendList(this.friendList);
+        } else {
+          this.externalMessage = "Ocurrió un error al agregar amigo";
+        }
+        console.log("data", data);
+      }, (error: any)=>{
+        this.externalMessage = "Ocurrió un error al agregar amigo";
+        console.log("error", error);
+      });
+  }
 
   onAddFriend(user: User) {
     const friendship: Friendship = {
@@ -47,10 +79,13 @@ export class AddFriendModalComponent implements OnInit {
   }
 
   onSearchUser() {
+    this.showExternal = false;
+    this.externalMessage = null;
     if(this.keyword && this.keyword.trim() !== "") {
       this.loadingSearch = true;
       this.friendService.search(this.keyword)
         .subscribe((data: any)=>{
+          console.log(data);
           this.loadingSearch = false;
           this.searchResults = data;
           this.searchResults = this.searchResults.filter(x => x.id != this.userService.user.id);

@@ -6,7 +6,7 @@
           <h2 class="card-title logo">
             Bienvenido <span class="text-primary">{{ user.firstName }}</span>
           </h2>
-          <small class="text-muted">{{ user.alias }}</small>
+          <small class="text-muted">{{ user.email }}</small>
         </div>
         <div class="card-body text-left">
           <p class="text-muted mb-0">{{friendList.length}} amigo<span *ngIf="friendList.length!=1">s</span></p>

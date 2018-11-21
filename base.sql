@@ -6,8 +6,9 @@ create table Users (
 	email varchar(100) not null,
 	firstName varchar(50) not null,
 	lastName varchar(100) not null,
-	alias varchar(20) not null,
-	pass varchar(30) not null
+	alias varchar(20),
+	pass varchar(30),
+    external boolean
 );
 
 create table FriendList (

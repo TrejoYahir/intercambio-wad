@@ -31,8 +31,9 @@ export class ExchangePageComponent implements OnInit {
   public isParticipant: boolean = false;
   public participantEntity: User;
   private confirmModal: BsModalRef;
-  private messageModal: BsModalRef;
   public pairList: any[][] = [];
+  public canSignIn: boolean = false;
+  public pastDate: boolean = false;
   public exchangeBuddy: any[];
 
   constructor(private route: ActivatedRoute, private exchangeService: ExchangeService, private router: Router, private userService: UserService, private modalService: BsModalService) { }
@@ -135,51 +136,27 @@ export class ExchangePageComponent implements OnInit {
     let today = new Date().setHours(0,0,0,0);
     let limitDate = new Date(`${this.exchange.limitDate}T00:00:00`).setHours(0,0,0,0);
     if(today <= limitDate) {
-      this.askSubscription();
+      this.canSignIn = true;
+      this.pastDate = false;
     } else {
-      this.showDateLimitMessage();
+      this.canSignIn = false;
+      this.pastDate = true;
     }
-  }
-
-  showDateLimitMessage() {
-    this.confirmModal = this.modalService.show(ConfirmModalComponent);
-    this.confirmModal.content.text = "La fecha limite para la incripción ya pasó";
-    this.confirmModal.content.actionButton = "Aceptar";
-    this.confirmModal.content.onClose.subscribe((result: boolean) => {
-      this.router.navigate(["/dashboard/home"]);
-    });
-  }
-
-  askSubscription() {
-    this.confirmModal = this.modalService.show(ConfirmModalComponent);
-    this.confirmModal.content.text = "¿Deseas unirte a este intercambio?";
-    this.confirmModal.content.actionButton = "Unirme";
-    this.confirmModal.content.declineButton = "Rechazar";
-    this.confirmModal.content.onClose.subscribe((result: boolean) => {
-      this.setStatus(result);
-    });
   }
 
   setStatus(result: boolean) {
-    if(result) {
-      let data = {...this.participantEntity};
-      data.idExchange = this.exchange.id;
-      this.exchangeService.joinExchange(data)
-        .subscribe((data: any) => {
-          console.log(data);
-          if(data.success) {
-            this.participantEntity.acceptInvite = true;
-          } else {
-            console.log("navigating out on setStatus subscribe");
-            this.router.navigate(["/dashboard/home"]);
-          }
-        }, (error: any)=>{
-          console.log(error);
-        });
-    } else {
-      console.log("navigating out on setStatus");
-      this.router.navigate(["/dashboard/home"]);
-    }
+    let data = {...this.participantEntity};
+    data.idExchange = this.exchange.id;
+    this.exchangeService.joinExchange(data)
+      .subscribe((data: any) => {
+        this.canSignIn = false;
+        console.log(data);
+        if(data.success) {
+          this.participantEntity.acceptInvite = true;
+        }
+      }, (error: any)=>{
+        console.log(error);
+      });
   }
 
   confirmUnsubscribe() {
@@ -199,7 +176,7 @@ export class ExchangePageComponent implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
         this.participantEntity.acceptInvite = false;
-        this.router.navigate(["/dashboard/home"]);
+        this.checkSubscribed();
       }, (error: any)=>{
         console.log(error);
       });

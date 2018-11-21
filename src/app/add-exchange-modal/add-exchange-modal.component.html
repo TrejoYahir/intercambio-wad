@@ -61,7 +61,7 @@
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Tema para regalo" name="theme" id="theme" [(ngModel)]="theme">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" (click)="onAddTheme()">
+          <button class="btn btn-primary" type="button" (click)="onAddTheme()" [disabled]="exchange.giftThemes.length >= 3">
             <i class="fa fa-plus-circle"></i>
           </button>
         </div>
@@ -86,7 +86,10 @@
              [value]="friend.id"
              (change)="toggleSelectedFriend(friend.id, $event.target.checked)">
           <label class="form-check-label" for="friend-{{friend.id}}">
-            <p class="m-0">{{friend.firstName}} {{friend.lastName}} <small class="text-muted">({{friend.alias}})</small></p>
+            <p class="m-0">
+              {{friend.firstName}} {{friend.lastName}}
+              <small class="text-muted" *ngIf="friend.alias">({{friend.alias}})</small>
+            </p>
             <small class="text-muted">{{friend.email}}</small>
           </label>
         </div>

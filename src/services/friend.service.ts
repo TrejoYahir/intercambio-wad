@@ -15,10 +15,8 @@ export class FriendService {
 
   constructor(private http: HttpClient, private userService: UserService) {
     this._friendListSubject = new BehaviorSubject<User[]>([]);
-
     this.fetchFriendList(this.userService.user.id)
       .subscribe((data: any)=>{
-        console.log("service data", data)
         this._friendListSubject.next(data);
       }, (error: any)=>{
         console.log(error);
@@ -35,6 +33,10 @@ export class FriendService {
 
   addFriend(friendship: Friendship) {
     return this.http.post('/add-friend', friendship);
+  }
+
+  addExternalFriend(externalFriend: any, id: number) {
+    return this.http.post(`/add-external-friend?id=${id}`, externalFriend);
   }
 
   fetchFriendList(id: number) {

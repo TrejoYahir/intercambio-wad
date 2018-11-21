@@ -1,5 +1,27 @@
 <div class="row">
   <div class="col-12 col-md-8 mt-md-0">
+    <div class="card mt-3" *ngIf="!isOwner && canSignIn && !pastDate">
+      <div class="card-header bg-primary text-white">
+        <h5 class="my-1">Confirmar participacón</h5>
+        <small>Por favor, selecciona una opción</small>
+      </div>
+      <div class="card-body">
+        <button class="btn btn-block btn-link text-secondary"
+                (click)="setStatus(true)"
+        >Aceptar invitación</button>
+        <button class="btn btn-link btn-block text-danger"
+                (click)="setStatus(false)"
+        >Declinar invitación</button>
+      </div>
+    </div>
+    <div class="card mt-3" *ngIf="pastDate">
+      <div class="card-header bg-primary text-white">
+        <h5 class="my-1">Ya no puedes inscribirte</h5>
+      </div>
+      <div class="card-body">
+        <p>La fecha de inscripción ya pasó.</p>
+      </div>
+    </div>
     <div class="card mt-3">
       <div class="card-header bg-primary text-white d-flex w-100 justify-content-between align-items-center">
         <h5 class="my-1">{{exchange.exchangeName}}</h5>
@@ -38,9 +60,9 @@
                 (click)="deletePairs()"
         >Anular sorteo</button>
         <button class="btn btn-link text-danger mt-3 pl-0"
-                *ngIf="!isOwner && participantEntity && pairList.length === 0"
+                *ngIf="!isOwner && participantEntity && pairList.length === 0 && participantEntity.acceptInvite"
                 (click)="confirmUnsubscribe()"
-        >Salir del intercambio</button>
+        >Cancelar participación</button>
       </div>
     </div>
     <div class="card mt-3" *ngIf="isOwner && pairList.length > 0">

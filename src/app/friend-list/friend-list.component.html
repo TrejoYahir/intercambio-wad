@@ -6,9 +6,9 @@
     <li class="list-group-item" *ngIf="friendList.length === 0">
       <p class="m-0">Aún no has agregado amigos.</p>
     </li>
-    <li class="list-group-item py-1 d-flex w-100 justify-content-between align-items-center" *ngFor="let friend of friendList">
+    <li class="list-group-item py-1 w-100" *ngFor="let friend of friendList">
       <p class="mb-0">{{friend.firstName}} {{friend.lastName}}</p>
-      <small class="text-muted">({{friend.alias}})</small>
+      <small class="text-muted">({{friend.email}})</small>
     </li>
   </ul>
   <div class="card-body">

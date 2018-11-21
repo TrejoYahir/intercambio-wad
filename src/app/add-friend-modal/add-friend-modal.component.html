@@ -16,6 +16,23 @@
           </button>
         </div>
       </div>
+      <button class="btn btn-link pl-0" (click)="toggleAddExternal()">Añadir amigo sin cuenta</button>
+      <div class="alert alert-primary" role="alert" *ngIf="externalMessage">
+        {{externalMessage}}
+      </div>
+      <ng-template [ngIf]="showExternal">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" placeholder="Email" name="email" id="email" #email>
+        </div>
+        <div class="form-group">
+          <label for="fullName">Nombre completo</label>
+          <input type="text" class="form-control" placeholder="Nombre Completo" name="fullName" id="fullName" #fullName>
+        </div>
+        <button class="btn btn-primary" (click)="onSaveExternalFriend(email.value, fullName.value)">
+          Añadir
+        </button>
+      </ng-template>
     </div>
     <p *ngIf="searchResults.length > 0">Resultados</p>
     <div class="w-100 text-center" *ngIf="false && loadingSearch">
@@ -24,7 +41,10 @@
     <ul class="list-group mb-3 friend-list">
       <li class="list-group-item d-sm-flex w-100 justify-content-between align-items-center" *ngFor="let user of searchResults">
         <div class="d-sm-block">
-          <p class="m-0">{{user.firstName}} {{user.lastName }} <span class="text-muted">({{user.alias}})</span></p>
+          <p class="m-0">
+            {{user.firstName}} {{user.lastName }}
+            <span class="text-muted" *ngIf="user.alias">({{user.alias}})</span>
+          </p>
           <small class="text-muted d-block">{{user.email}}</small>
         </div>
         <i class="fa fa-circle-o-notch fa-spin" *ngIf="user.loadingFriendship"></i>

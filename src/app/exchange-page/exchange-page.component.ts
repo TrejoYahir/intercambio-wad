@@ -1,11 +1,12 @@
 import {Component, OnInit, ɵConsole} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Exchange} from '../../models/exchange.model';
 import {ExchangeService} from '../../services/exchange.service';
 import {UserService} from '../../services/user.service';
 import {User} from '../../models/user.model';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {InviteService} from '../../services/invite.service';
 
 @Component({
   selector: 'app-exchange-page',
@@ -34,9 +35,11 @@ export class ExchangePageComponent implements OnInit {
   public pairList: any[][] = [];
   public canSignIn: boolean = false;
   public pastDate: boolean = false;
-  public exchangeBuddy: any[];
+  public exchangeBuddy: any;
+  public confirmedList: User[];
+  public selectedThemeMessage: string;
 
-  constructor(private route: ActivatedRoute, private exchangeService: ExchangeService, private router: Router, private userService: UserService, private modalService: BsModalService) { }
+  constructor(private route: ActivatedRoute, private exchangeService: ExchangeService, private router: Router, private userService: UserService, private modalService: BsModalService, private inviteService: InviteService) { }
 
   public code: string;
 
@@ -68,6 +71,16 @@ export class ExchangePageComponent implements OnInit {
     }
   }
 
+  onSelectTheme(theme: string) {
+    this.inviteService.selectExchangeTheme(theme, this.participantEntity.id, this.exchange.id)
+      .subscribe((data: any) => {
+        this.selectedThemeMessage = data.message;
+        console.log(data);
+      }, (error: any) => {
+        console.log(error);
+      });
+  }
+
   fetchExchange() {
     this.exchangeService.fetchExchange(this.code)
       .subscribe((data: any)=> {
@@ -75,6 +88,7 @@ export class ExchangePageComponent implements OnInit {
         if(data[0].success) {
           this.exchange = JSON.parse(data[0].exchange);
           this.participantList = this.exchange.participantList;
+          this.confirmedList = [...this.participantList].filter(x => x.acceptInvite === true);
           this.isOwner = this.checkOwnerShip();
           this.pairList = this.buildPairList(data[1]);
           console.log(this.exchange);
@@ -144,7 +158,7 @@ export class ExchangePageComponent implements OnInit {
     }
   }
 
-  setStatus(result: boolean) {
+  setStatus() {
     let data = {...this.participantEntity};
     data.idExchange = this.exchange.id;
     this.exchangeService.joinExchange(data)
@@ -183,8 +197,8 @@ export class ExchangePageComponent implements OnInit {
   }
 
   createPairs() {
-    let leftList: User[] = [...this.participantList];
-    let rightList: User[] = [...this.participantList];
+    let leftList: User[] = [...this.confirmedList];
+    let rightList: User[] = [...this.confirmedList];
 
     let pairList: number[][] = [];
 

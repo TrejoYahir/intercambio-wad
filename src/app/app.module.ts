@@ -27,6 +27,7 @@ import {LoggedGuard} from '../guards/logged-guard.service';
 import { DateCompareDirective } from '../directives/date-compare.directive';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { AddParticipantModalComponent } from './add-participant-modal/add-participant-modal.component';
+import { ExchangeInviteComponent } from './exchange-invite/exchange-invite.component';
 
 export function onInit(authService: AuthService) {
   return () => authService.getSavedSession();
@@ -54,6 +55,7 @@ export function onInit(authService: AuthService) {
     DateCompareDirective,
     ConfirmModalComponent,
     AddParticipantModalComponent,
+    ExchangeInviteComponent,
   ],
   entryComponents: [
     AddExchangeModalComponent,

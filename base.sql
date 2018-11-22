@@ -49,11 +49,22 @@ create table ParticipantList (
     idExchange int not null,
     acceptInvite boolean not null,
     isInGroup boolean not null,
-    foreign key(idUser) references Users (id),
+    theme varchar(100) null,
+    foreign key(idUser) references Users (id)
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
     foreign key(idExchange) references Exchanges (id) 
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+SHOW CREATE TABLE ParticipantList;
+
+ALTER TABLE ParticipantList 
+DROP FOREIGN KEY participantlist_ibfk_1;
+ALTER TABLE ParticipantList
+DROP COLUMN idTheme;
+ALTER TABLE ParticipantList ADD theme varchar(100) null;
 
 create table Pairs (
 	id int primary key not null auto_increment,
@@ -65,6 +76,16 @@ create table Pairs (
     foreign key(idExchange) references Exchanges (id) 
 		ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+create table UserSelectedTheme(
+	id int primary key not null auto_increment,
+    idUser int not null,
+    idExchange int not null,
+    idTheme int not null,
+    foreign key(idUser) references Users (id),
+    foreign key(idExchange) references Exchanges (id),
+    foreign key(idTheme) references Themes (id)
 );
 
 
@@ -118,6 +139,13 @@ BEGIN
 		WHERE e.accessCode = eCode;
     END //
 DELIMITER ;
+
+delete from Users where id=2;
+select * from users;
+select * from ParticipantList;
+select * from exchanges;
+select * from themes;
+select * from friendList;
 
 select * from exchanges;
 select * from Themes;

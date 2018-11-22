@@ -18,15 +18,15 @@ export class ParticipantsListComponent implements OnInit {
   @Input() private exchange: Exchange;
   private addParticipantModal: BsModalRef;
 
-  constructor(private exchangeService: ExchangeService, private modelService: BsModalService) { }
+  constructor(private modelService: BsModalService) { }
 
   ngOnInit() {
-
+    console.log('participant list', this.participantList);
   }
 
   onAddParticipant() {
     this.addParticipantModal = this.modelService.show(AddParticipantModalComponent);
-    this.addParticipantModal.content.participantList = this.participantList;
+    this.addParticipantModal.content.participantList = this.exchange.participantList;
     this.addParticipantModal.content.idExchange = this.exchange.id;
   }
 

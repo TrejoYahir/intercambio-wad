@@ -9,12 +9,13 @@ import {FriendListComponent} from './friend-list/friend-list.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AuthGuard} from '../guards/auth-gard.service';
 import {LoggedGuard} from '../guards/logged-guard.service';
-import {AppModule} from './app.module';
+import {ExchangeInviteComponent} from './exchange-invite/exchange-invite.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard/home', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [LoggedGuard]},
-  { path: 'signup', component: SignupComponent, canActivate: [LoggedGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [LoggedGuard] },
+  { path: 'signup', component: SignupComponent, canActivate: [LoggedGuard] },
+  { path: 'exchange-invite/:code', component: ExchangeInviteComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

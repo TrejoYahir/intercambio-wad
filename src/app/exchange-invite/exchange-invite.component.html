@@ -1,0 +1,83 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="collapse navbar-collapse" id="toggle">
+    <a class="navbar-brand logo" routerLink="/dashboard/home">Intercambios</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login">Inicia sesión</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/signup">Registrate</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-8 mt-md-0">
+      <div class="card mt-3" *ngIf="isParticipant && canSignIn && !pastDate">
+        <div class="card-header bg-primary text-white">
+          <h5 class="my-1">Confirmar participacón</h5>
+          <small>Por favor, selecciona una opción</small>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-block btn-link text-secondary"
+                  (click)="setStatus(true)"
+          >Aceptar invitación</button>
+          <button class="btn btn-link btn-block text-danger"
+                  (click)="setStatus(false)"
+          >Declinar invitación</button>
+        </div>
+      </div>
+      <div class="card mt-3" *ngIf="pastDate">
+        <div class="card-header bg-primary text-white">
+          <h5 class="my-1">Ya no puedes inscribirte</h5>
+        </div>
+        <div class="card-body">
+          <p>La fecha de inscripción ya pasó.</p>
+        </div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-header bg-primary text-white d-flex w-100 justify-content-between align-items-center">
+          <h5 class="my-1">{{exchange?.exchangeName}}</h5>
+          <small>{{exchange?.exchangeDate}}</small>
+        </div>
+        <div class="card-body">
+          <p>{{exchange?.exchangeDescription}}</p>
+          <p class="font-weight-bold mb-0">Fecha límite de registro</p>
+          <p class="mt-0 text-muted">{{exchange?.limitDate}}</p>
+          <p class="font-weight-bold mb-0">Fecha del intercambio</p>
+          <p class="mt-0 text-muted">{{exchange?.exchangeDate}}</p>
+          <p class="font-weight-bold mb-0">Código de acceso</p>
+          <p class="mt-0 text-muted">{{exchange?.accessCode}}</p>
+          <p class="font-weight-bold mb-0">Monto máximo</p>
+          <p class="mt-0 text-muted">${{exchange?.maxAmount}}</p>
+          <p class="font-weight-bold mb-0"
+             *ngIf="isParticipant && pairList?.length > 0 && exchangeBuddy">
+            Compañero asignado
+          </p>
+          <p class="mt-0 text-muted"
+             *ngIf="pairList?.length > 0 && exchangeBuddy">
+            {{exchangeBuddy?.firstName}} {{exchangeBuddy?.lastName}} ({{exchangeBuddy?.email}})
+          </p>
+          <p class="font-weight-bold">Temas de interés </p>
+          <div class="w-100">
+          <span class="badge badge-pill badge-primary mx-1" *ngFor="let theme of exchange?.giftThemesList">
+            {{theme}}
+          </span>
+          </div>
+          <button class="btn btn-link text-danger mt-3 pl-0"
+                  *ngIf="participantEntity && pairList?.length === 0 && participantEntity?.acceptInvite"
+                  (click)="confirmUnsubscribe()"
+          >Cancelar participación</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 mt-md-0">
+      <app-participants-list
+        [participantList]="participantList"
+        [isOwner]="false"
+        [exchange]="exchange"
+      ></app-participants-list>
+    </div>
+  </div>
+</div>

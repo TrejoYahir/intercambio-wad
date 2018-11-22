@@ -19,7 +19,7 @@ export class ExchangeService {
 
     this.fetchExchangeLists(this.userService.user.id)
       .subscribe((data: any)=>{
-        console.log("exchange service data", data)
+        console.log("exchange service data", data);
         this._exchangeList.next(data[0]);
         console.log("exchange list service", this._exchangeList.value);
         this._inviteList.next(data[1]);
@@ -55,6 +55,13 @@ export class ExchangeService {
     let exchange = this.http.get(`/get-exchange?code=${code}`);
     let pairs = this.http.get(`/get-pairs?code=${code}`);
     return forkJoin([exchange, pairs]);
+  }
+
+  public fetchExchangeInvite(id: number, code: string) {
+    let exchange = this.http.get(`/get-exchange?code=${code}`);
+    let pairs = this.http.get(`/get-pairs?code=${code}`);
+    let user = this.http.get(`/get-user?id=${id}`);
+    return forkJoin([exchange, pairs, user]);
   }
 
   public search(id: number) {

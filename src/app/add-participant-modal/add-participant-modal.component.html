@@ -28,7 +28,9 @@
           <small class="text-muted d-block">{{user.email}}</small>
         </div>
         <i class="fa fa-circle-o-notch fa-spin" *ngIf="user.loading"></i>
-        <button class="btn btn-primary mt-2 mt-sm-0" (click)="onAddParticipant(user)" *ngIf="!user.loading && !isParticipant(user)">Añadir</button>
+        <button class="btn btn-primary mt-2 mt-sm-0"
+                (click)="onAddParticipant(user)"
+                *ngIf="!user.loading && !isParticipant(user)">Añadir</button>
         <p class="text-success" *ngIf="!user.loading && isParticipant(user)">
           <small class="text-danger" *ngIf="!user.acceptInvite"><i class="fa fa-circle-o"></i></small>
           <small class="text-success" *ngIf="user.acceptInvite"><i class="fa fa-circle"></i></small>

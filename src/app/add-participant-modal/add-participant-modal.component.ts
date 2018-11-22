@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from '../../models/user.model';
 import {BsModalRef} from 'ngx-bootstrap';
 import {FriendService} from '../../services/friend.service';
@@ -10,21 +10,30 @@ import {ExchangeService} from '../../services/exchange.service';
   templateUrl: './add-participant-modal.component.html',
   styleUrls: ['./add-participant-modal.component.scss']
 })
-export class AddParticipantModalComponent implements OnInit {
+export class AddParticipantModalComponent implements OnInit, OnDestroy {
 
   public keyword: string;
   public searchResults: User[];
-  private friendList: User[];
+  private readonly friendList: User[];
   private participantList: User[];
   private idExchange: number;
 
   constructor(public bsModalRef: BsModalRef, private friendService: FriendService, private userService: UserService, private exchangeService: ExchangeService) {
     this.searchResults = [];
-    this.friendList = friendService.friendList;
+    this.friendList = Object.assign([], this.friendService.friendList);
     console.log("friendlist", this.friendList);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log('participant list modal', this.participantList);
+  }
+
+  ngOnDestroy() {
+    for(let friend of this.friendList) {
+      delete friend.acceptInvite;
+      delete friend.isParticipant;
+    }
+  }
 
   onAddParticipant(user: User) {
     console.log("user", user);
@@ -48,9 +57,9 @@ export class AddParticipantModalComponent implements OnInit {
 
   onSearchUser() {
     if(this.keyword && this.keyword.trim() !== "") {
-      let list = [...this.friendList];
+      let list = Object.assign([], this.friendList);
       this.searchResults = list.filter(x => {
-        return x.alias.toLowerCase().includes(this.keyword)
+        return x.alias && x.alias.toLowerCase().includes(this.keyword)
             || x.firstName.toLowerCase().includes(this.keyword)
             || x.lastName.toLowerCase().includes(this.keyword)
             || x.email.toLowerCase().includes(this.keyword);
@@ -63,7 +72,7 @@ export class AddParticipantModalComponent implements OnInit {
   isParticipant(user: User) {
     let sharedList: boolean = false;
     for(let participant of this.participantList) {
-      if(participant.id == user.id) {
+      if(participant.id === user.id) {
         user.acceptInvite = participant.acceptInvite;
         sharedList = true;
         break;

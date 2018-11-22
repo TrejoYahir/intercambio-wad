@@ -24,4 +24,8 @@ export class UserService {
     localStorage.removeItem('user');
   }
 
+  fetchUser(id: number) {
+
+  }
+
 }

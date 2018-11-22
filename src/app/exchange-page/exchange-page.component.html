@@ -43,16 +43,29 @@
         </p>
         <p class="mt-0 text-muted"
            *ngIf="!isOwner && pairList.length > 0 && exchangeBuddy">
-          {{exchangeBuddy.firstName}} {{exchangeBuddy.lastName}}
+          {{exchangeBuddy.firstName}} {{exchangeBuddy.lastName}} ({{exchangeBuddy.email}})
         </p>
         <p class="font-weight-bold">Temas de interés </p>
-        <div class="w-100">
-          <span class="badge badge-pill badge-primary mx-1" *ngFor="let theme of exchange.giftThemesList">
+        <div class="w-100" *ngIf="!isOwner">
+          <p>Haz click en un tema para seleccionarlo.</p>
+          <span class="badge badge-pill badge-primary mx-1"
+                *ngFor="let theme of exchange.giftThemesList"
+                (click)="onSelectTheme(theme)"
+                style="cursor:pointer;">
+            {{theme}}
+          </span>
+          <div class="alert alert-primary pt-2" role="alert" *ngIf="selectedThemeMessage">
+            {{selectedThemeMessage}}
+          </div>
+        </div>
+        <div class="w-100" *ngIf="isOwner">
+          <span class="badge badge-pill badge-primary mx-1"
+                *ngFor="let theme of exchange.giftThemesList">
             {{theme}}
           </span>
         </div>
         <button class="btn btn-link mt-3 pl-0"
-                *ngIf="isOwner && pairList.length == 0"
+                *ngIf="isOwner && pairList.length == 0 && confirmedList.length > 1"
                 (click)="createPairs()"
         >Hacer sorteo</button>
         <button class="btn btn-link text-danger mt-3 pl-0"
@@ -74,8 +87,14 @@
           <tbody>
             <tr *ngFor="let participant of pairList; let i = index;">
               <th scope="row" class="text-center">{{i+1}}</th>
-              <td>{{participant[0].firstName}}</td>
-              <td>{{participant[1].firstName}}</td>
+              <td>
+                <p class="m-0">{{participant[0].firstName}} {{participant[0].lastName}}</p>
+                <small>{{participant[0].email}}</small>
+              </td>
+              <td>
+                <p class="m-0">{{participant[1].firstName}} {{participant[1].lastName}}</p>
+                <small>{{participant[1].email}}</small>
+              </td>
             </tr>
           </tbody>
         </table>
